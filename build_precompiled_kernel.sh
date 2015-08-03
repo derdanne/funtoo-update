@@ -49,13 +49,13 @@ echo "Copying modules in /lib/modules/${KERNELVERSION}-gentoo ..."
 cp -pR /lib/modules/${KERNELVERSION}-gentoo ${TMPDIR}/ || exit 1
 
 echo "Copying system map System.map-genkernel-x86_64-${KERNELVERSION}-gentoo ..."
-cp -P /boot/System.map-genkernel-x86_64-${KERNELVERSION}-gentoo ${TMPDIR}/ || exit 1
+cp -p /boot/System.map-genkernel-x86_64-${KERNELVERSION}-gentoo ${TMPDIR}/ || exit 1
 
 echo "Copying initram disk initramfs-genkernel-x86_64-${KERNELVERSION}-gentoo ..."
-cp -P /boot/initramfs-genkernel-x86_64-${KERNELVERSION}-gentoo ${TMPDIR}/ || exit 1
+cp -p /boot/initramfs-genkernel-x86_64-${KERNELVERSION}-gentoo ${TMPDIR}/ || exit 1
 
 echo "Copying kernel kernel-genkernel-x86_64-${KERNELVERSION}-gentoo ..."
-cp -P /boot/kernel-genkernel-x86_64-${KERNELVERSION}-gentoo ${TMPDIR}/ || exit 1
+cp -p /boot/kernel-genkernel-x86_64-${KERNELVERSION}-gentoo ${TMPDIR}/ || exit 1
 
 echo "Creating Archive ..."
 cd ${TMPDIR} && tar cpzf /usr/portage/packages/prebuild-kernels/gentoo-sources-${KERNELVERSION}.tar.gz . || exit 1

@@ -53,13 +53,13 @@ echo "Installing modules in /lib/modules/${KERNELVERSION}-gentoo ..."
 test -d /lib/modules/${KERNELVERSION}-gentoo || cp -pR ${KERNELVERSION}-gentoo /lib/modules
 
 echo "Installing system map System.map-genkernel-x86_64-${KERNELVERSION}-gentoo ..."
-test -f /boot/System.map-genkernel-x86_64-${KERNELVERSION}-gentoo || cp -P System.map-genkernel-x86_64-${KERNELVERSION}-gentoo /boot/
+test -f /boot/System.map-genkernel-x86_64-${KERNELVERSION}-gentoo || cp -p System.map-genkernel-x86_64-${KERNELVERSION}-gentoo /boot/
 
 echo "Installing initram disk initramfs-genkernel-x86_64-${KERNELVERSION}-gentoo ..."
-test -f /boot/initramfs-genkernel-x86_64-${KERNELVERSION}-gentoo || cp -P initramfs-genkernel-x86_64-${KERNELVERSION}-gentoo /boot/
+test -f /boot/initramfs-genkernel-x86_64-${KERNELVERSION}-gentoo || cp -p initramfs-genkernel-x86_64-${KERNELVERSION}-gentoo /boot/
 
 echo "Installing kernel kernel-genkernel-x86_64-${KERNELVERSION}-gentoo ..."
-test -f /boot/kernel-genkernel-x86_64-${KERNELVERSION}-gentoo || cp -P kernel-genkernel-x86_64-${KERNELVERSION}-gentoo /boot/
+test -f /boot/kernel-genkernel-x86_64-${KERNELVERSION}-gentoo || cp -p kernel-genkernel-x86_64-${KERNELVERSION}-gentoo /boot/
 
 echo "Setting new kernel as default ..."
 eselect kernel set $(eselect kernel list | grep ${KERNELVERSION} | awk '{print $1}' | sed "s/\[//g" | sed "s/\]//g")
