@@ -9,11 +9,12 @@ while getopts "y" OPTION; do
 			;;
 	esac
 done
+shift $(( OPTIND - 1 ))
 
-if [ -z "${1}" ]; then
+if [ -z "${@}" ]; then
 	KERNELVERSION="$(eix gentoo-sources | grep -v "Installed versions" | grep "(" | tail -n 1 | awk '{print $1}' | sed 's/(//g' | sed 's/)//g')"
 else
-	KERNELVERSION="${1}"
+	KERNELVERSION="${@}"
 fi
 
 echo "Building precompiled kernel sys-kernel/gentoo-sources-${KERNELVERSION}"
@@ -46,16 +47,16 @@ echo "Copying kernel configuration ..."
 cp -pR /etc/kernels/kernel-config-x86_64-${KERNELVERSION}-gentoo-mfc ${TMPDIR}/ || exit 1
 
 echo "Copying modules in /lib/modules/${KERNELVERSION}-gentoo ..."
-cp -pR /lib/modules/${KERNELVERSION}-gentoo ${TMPDIR}/ || exit 1
+cp -pR /lib/modules/${KERNELVERSION}-gentoo-mfc ${TMPDIR}/ || exit 1
 
 echo "Copying system map System.map-genkernel-x86_64-${KERNELVERSION}-gentoo ..."
-cp -p /boot/System.map-genkernel-x86_64-${KERNELVERSION}-gentoo ${TMPDIR}/ || exit 1
+cp -p /boot/System.map-genkernel-x86_64-${KERNELVERSION}-gentoo-mfc ${TMPDIR}/ || exit 1
 
 echo "Copying initram disk initramfs-genkernel-x86_64-${KERNELVERSION}-gentoo ..."
-cp -p /boot/initramfs-genkernel-x86_64-${KERNELVERSION}-gentoo ${TMPDIR}/ || exit 1
+cp -p /boot/initramfs-genkernel-x86_64-${KERNELVERSION}-gentoo-mfc ${TMPDIR}/ || exit 1
 
 echo "Copying kernel kernel-genkernel-x86_64-${KERNELVERSION}-gentoo ..."
-cp -p /boot/kernel-genkernel-x86_64-${KERNELVERSION}-gentoo ${TMPDIR}/ || exit 1
+cp -p /boot/kernel-genkernel-x86_64-${KERNELVERSION}-gentoo-mfc ${TMPDIR}/ || exit 1
 
 echo "Creating Archive ..."
 cd ${TMPDIR} && tar cpzf /usr/portage/packages/prebuild-kernels/gentoo-sources-${KERNELVERSION}.tar.gz . || exit 1
