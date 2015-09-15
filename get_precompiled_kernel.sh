@@ -26,7 +26,7 @@ fi
 
 TMPDIR="$(mktemp -d)"
 
-if [ -z "$(mount | grep /boot)" ]; then 
+if [ -z "$(mount | grep /boot)" ]; then
 	mount /boot || exit 1
 fi
 
@@ -46,20 +46,20 @@ echo "Checking Download and extracting ..."
 test -f gentoo-sources-${KERNELVERSION}.tar.gz && tar xf gentoo-sources-${KERNELVERSION}.tar.gz
 
 echo "Copying kernel configuration ..."
-test -d /etc/kernels/kernel-config-x86_64-${KERNELVERSION}-gentoo-mfc || cp -pR kernel-config-x86_64-${KERNELVERSION}-gentoo-mfc /etc/kernels/
-test -d /usr/src/linux-${KERNELVERSION}-gentoo/.config || cp -pR kernel-config-x86_64-${KERNELVERSION}-gentoo-mfc /usr/src/linux-${KERNELVERSION}-gentoo/.config
+cp -pR kernel-config-x86_64-${KERNELVERSION}-gentoo-mfc /etc/kernels/
+cp -p kernel-config-x86_64-${KERNELVERSION}-gentoo-mfc /usr/src/linux-${KERNELVERSION}-gentoo/.config
 
 echo "Installing modules in /lib/modules/${KERNELVERSION}-gentoo ..."
-test -d /lib/modules/${KERNELVERSION}-gentoo-mfc || cp -pR ${KERNELVERSION}-gentoo-mfc /lib/modules
+cp -pR ${KERNELVERSION}-gentoo-mfc /lib/modules
 
 echo "Installing system map System.map-genkernel-x86_64-${KERNELVERSION}-gentoo ..."
-test -f /boot/System.map-genkernel-x86_64-${KERNELVERSION}-gentoo-mfc || cp -p System.map-genkernel-x86_64-${KERNELVERSION}-gentoo-mfc /boot/
+cp -p System.map-genkernel-x86_64-${KERNELVERSION}-gentoo-mfc /boot/
 
 echo "Installing initram disk initramfs-genkernel-x86_64-${KERNELVERSION}-gentoo ..."
-test -f /boot/initramfs-genkernel-x86_64-${KERNELVERSION}-gentoo-mfc || cp -p initramfs-genkernel-x86_64-${KERNELVERSION}-gentoo-mfc /boot/
+cp -p initramfs-genkernel-x86_64-${KERNELVERSION}-gentoo-mfc /boot/
 
 echo "Installing kernel kernel-genkernel-x86_64-${KERNELVERSION}-gentoo ..."
-test -f /boot/kernel-genkernel-x86_64-${KERNELVERSION}-gentoo-mfc || cp -p kernel-genkernel-x86_64-${KERNELVERSION}-gentoo-mfc /boot/
+cp -p kernel-genkernel-x86_64-${KERNELVERSION}-gentoo-mfc /boot/
 
 echo "Setting new kernel as default ..."
 eselect kernel set $(eselect kernel list | grep ${KERNELVERSION} | awk '{print $1}' | sed "s/\[//g" | sed "s/\]//g")
