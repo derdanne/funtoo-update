@@ -69,27 +69,27 @@ fi
 tput setf 2
 echo "Doing system updates..."
 tput sgr0
-emerge -uND ${ASK} @world || exit 1
+emerge -quND ${ASK} @world || exit 1
 
 tput setf 2
 echo "Emerging preserved rebuild set..."
 tput sgr0
-emerge ${ASK} @preserved-rebuild || exit 1
+emerge -q ${ASK} @preserved-rebuild || exit 1
 
 tput setf 2
 echo "Emerging module rebuild set..."
 tput sgr0
-emerge ${ASK} @module-rebuild || exit 1
+emerge -q ${ASK} @module-rebuild || exit 1
 
 tput setf 2
 echo "Checking reverse dependencies..."
 tput sgr0
-revdep-rebuild -- ${ASK} || exit 1
+revdep-rebuild -- ${ASK} -q || exit 1
 
 tput setf 2
 echo "Doing perl cleanup..."
 tput sgr0
-perl-cleaner --all -- ${ASK} || exit 1
+perl-cleaner --all -- ${ASK} -q || exit 1
 
 if [ ${KERNELUPDATE} -eq 1 ]; then
     if [ ${DONTASK} -eq 1 ]; then
