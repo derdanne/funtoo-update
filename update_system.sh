@@ -1,6 +1,6 @@
 #!/bin/bash
 source /etc/portage/make.conf
-export EMERGE_DEFAULT_OPTS="${EMERGE_DEFAULT_OPTS} --with-bdeps=y --complete-graph --keep-going"
+export EMERGE_DEFAULT_OPTS="${EMERGE_DEFAULT_OPTS} --with-bdeps=y --complete-graph --keep-going --autounmask-keep-masks --backtrack=100 --exclude=sys-kernel/gentoo-sources"
 
 DONTASK=0
 KERNELUPDATE=0
@@ -51,7 +51,8 @@ tput setf 2
 echo "Syncing Portage Trees"
 tput sgr0
 
-emerge --sync || exit 1
+emerge -q --sync || exit 1
+emerge -q --regen || exit 1
 eix-update || exit 1
 /server/admin/script/maint/update_mfc_portage_overlay.sh || exit 1
 
@@ -59,7 +60,7 @@ tput setf 2
 echo "Updating Portage to latest version..."
 tput sgr0
 
-emerge --oneshot portage || exit 1
+emerge -q --oneshot portage || exit 1
 
 if [ ${DONTASK} -eq 0 ]; then
     ASK="--ask"
@@ -101,4 +102,3 @@ if [ ${KERNELUPDATE} -eq 1 ]; then
 fi
 
 exit 0
-
