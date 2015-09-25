@@ -3,6 +3,7 @@ source /etc/portage/make.conf
 export EMERGE_DEFAULT_OPTS="${EMERGE_DEFAULT_OPTS} --with-bdeps=y --complete-graph --keep-going --autounmask-keep-masks --backtrack=100 --exclude=sys-kernel/gentoo-sources"
 
 DONTASK=0
+DEEP=0
 KERNELUPDATE=0
 
 usage() {
@@ -13,6 +14,7 @@ This script updates your funtoo box
 
 OPTIONS:
    -y      Do not ask any question, just keep going an do the update
+   -d      Do a really deep Update
    -k      Get a precompiled gentoo-sources kernel with KERNELVERSION as A.B.C
 EOF
 }
@@ -22,12 +24,15 @@ while getopts ":yk:" OPTION; do
         y)
             DONTASK=1
         ;;
+        d)
+            DEEP=1
+        ;;
         k)
             if [[ ${OPTARG} = -* ]]; then
                 $(( OPTIND -1 ))
                 continue
             fi
-            if [ ! -z $OPTARG  ]; then
+            if [ ! -z ${OPTARG}  ]; then
                 KERNELVERSION="${OPTARG}"
             fi
             KERNELUPDATE=1
@@ -35,7 +40,7 @@ while getopts ":yk:" OPTION; do
         :)
             case ${OPTARG} in
                 k)
-                    KERNELUPDATE="1"
+                    KERNELUPDATE=1
                 ;;
             esac
         ;;
@@ -53,7 +58,7 @@ tput sgr0
 
 emerge -q --sync || exit 1
 emerge -q --regen || exit 1
-eix-update || exit 1
+eix-update -q || exit 1
 /server/admin/script/maint/update_mfc_portage_overlay.sh || exit 1
 
 tput setf 2
@@ -70,6 +75,16 @@ tput setf 2
 echo "Doing system updates..."
 tput sgr0
 emerge -quND ${ASK} @world || exit 1
+
+if [ ${DEEP} -eq 1 ]; then
+    tput setf 2
+    echo "Doing Deep system updates..."
+    tput sgr0
+    for package in $(EIX_LIMIT=0 eix | egrep '\[U' | awk '{print $2}'); do
+        PACKAGES="${package} ${PACKAGES}"
+    done
+    emerge ${ASK} -1 ${PACKAGES} || exit 1
+fi
 
 tput setf 2
 echo "Emerging preserved rebuild set..."
