@@ -83,7 +83,7 @@ if [ ${DEEP} -eq 1 ]; then
     for PACKAGE in $(EIX_LIMIT=0 eix | egrep '\[U' | awk '{print $2}'); do
         PACKAGES="${PACKAGE} ${PACKAGES}"
     done
-    emerge ${ASK} -1 ${PACKAGES} || exit 1
+    emerge ${ASK} -u1 ${PACKAGES} || exit 1
 fi
 
 tput setf 2
