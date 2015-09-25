@@ -80,8 +80,8 @@ if [ ${DEEP} -eq 1 ]; then
     tput setf 2
     echo "Doing Deep system updates..."
     tput sgr0
-    for package in $(EIX_LIMIT=0 eix | egrep '\[U' | awk '{print $2}'); do
-        PACKAGES="${package} ${PACKAGES}"
+    for PACKAGE in $(EIX_LIMIT=0 eix | egrep '\[U' | awk '{print $2}'); do
+        PACKAGES="${PACKAGE} ${PACKAGES}"
     done
     emerge ${ASK} -1 ${PACKAGES} || exit 1
 fi
