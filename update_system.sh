@@ -19,7 +19,7 @@ OPTIONS:
 EOF
 }
 
-while getopts ":yk:" OPTION; do
+while getopts ":ydk:" OPTION; do
     case "${OPTION}" in
         y)
             DONTASK=1
