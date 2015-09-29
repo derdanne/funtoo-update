@@ -8,7 +8,7 @@ KERNELUPDATE=0
 
 usage() {
 cat << EOF
-usage: $0 [-y] [-k [KERNELVERSION]]
+usage: $0 [-y] [-d] [-k [KERNELVERSION]]
 
 This script updates your funtoo box
 
@@ -56,10 +56,14 @@ tput setf 2
 echo "Syncing Portage Trees"
 tput sgr0
 
+eselect news read --quiet all
 emerge -q --sync || exit 1
 emerge -q --regen || exit 1
 eix-update -q || exit 1
-/server/admin/script/maint/update_mfc_portage_overlay.sh || exit 1
+
+if [ -f "/server/admin/script/maint/update_mfc_portage_overlay.sh" ]; then
+	/server/admin/script/maint/update_mfc_portage_overlay.sh || exit 1
+fi
 
 tput setf 2
 echo "Updating Portage to latest version..."
