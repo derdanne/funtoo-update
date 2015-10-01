@@ -1,6 +1,6 @@
 #!/bin/bash
 source /etc/portage/make.conf
-export EMERGE_DEFAULT_OPTS="${EMERGE_DEFAULT_OPTS} --with-bdeps=y --complete-graph --keep-going --autounmask-keep-masks --backtrack=100 --exclude=sys-kernel/gentoo-sources"
+export EMERGE_DEFAULT_OPTS="${EMERGE_DEFAULT_OPTS} --with-bdeps=y --complete-graph --keep-going --autounmask-keep-masks --backtrack=9999 --exclude=sys-kernel/gentoo-sources"
 
 DONTASK=0
 DEEP=0
@@ -103,7 +103,7 @@ emerge -q --usepkg-exclude "*" ${ASK} @module-rebuild || exit 1
 tput setf 2
 echo "Checking reverse dependencies..."
 tput sgr0
-revdep-rebuild -- ${ASK} -q || exit 1
+revdep-rebuild -- ${ASK} -q --usepkg-exclude "*" || exit 1
 
 tput setf 2
 echo "Doing perl cleanup..."
