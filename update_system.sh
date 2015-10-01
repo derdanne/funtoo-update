@@ -93,17 +93,17 @@ fi
 tput setf 2
 echo "Emerging preserved rebuild set..."
 tput sgr0
-emerge -q --usepkg-exclude "*" ${ASK} @preserved-rebuild || exit 1
+emerge -q --usepkg-exclude="*" ${ASK} @preserved-rebuild || exit 1
 
 tput setf 2
 echo "Emerging module rebuild set..."
 tput sgr0
-emerge -q --usepkg-exclude "*" ${ASK} @module-rebuild || exit 1
+emerge -q --usepkg-exclude="*" ${ASK} @module-rebuild || exit 1
 
 tput setf 2
 echo "Checking reverse dependencies..."
 tput sgr0
-revdep-rebuild -- ${ASK} -q --usepkg-exclude "*" || exit 1
+revdep-rebuild -- ${ASK} -q --usepkg-exclude="*" || exit 1
 
 tput setf 2
 echo "Doing perl cleanup..."
