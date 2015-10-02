@@ -69,7 +69,7 @@ tput setf 2
 echo "Updating Portage to latest version..."
 tput sgr0
 
-emerge -q --oneshot portage || exit 1
+emerge -u -q --oneshot portage || exit 1
 
 if [ ${DONTASK} -eq 0 ]; then
     ASK="--ask"
