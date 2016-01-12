@@ -39,7 +39,7 @@ emerge -1 sys-kernel/genkernel
 echo "Compiling new kernel ..."
 genkernel --kernel-config=/etc/kernels/kernel-config-x86_64-${CURRENT_KERNEL}-gentoo-mfc --lvm --mdadm all
 
-if [ -z "$(mount | grep /boot)" ]; then 
+if [ -z "$(mount | grep /boot)" ]; then
 	mount /boot || exit 1
 fi
 
@@ -58,12 +58,15 @@ cp -p /boot/initramfs-genkernel-x86_64-${KERNELVERSION}-gentoo-mfc ${TMPDIR}/ ||
 echo "Copying kernel kernel-genkernel-x86_64-${KERNELVERSION}-gentoo ..."
 cp -p /boot/kernel-genkernel-x86_64-${KERNELVERSION}-gentoo-mfc ${TMPDIR}/ || exit 1
 
+echo "Copying vmlinux of ${KERNELVERSION}-gentoo ..."
+cp -p /usr/src/linux/vmlinux ${TMPDIR}/ || exit 1
+
 echo "Creating Archive ..."
 cd ${TMPDIR} && tar cpzf /usr/portage/packages/prebuild-kernels/gentoo-sources-${KERNELVERSION}.tar.gz . || exit 1
 
 echo "Doing cleanup ..."
 cd .. && rm -rf ${TMPDIR}
-umount /boot 
+umount /boot
 
 echo "Finished!!!"
 echo "Created binary package gentoo-sources-${KERNELVERSION}.tar.gz."

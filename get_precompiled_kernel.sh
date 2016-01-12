@@ -64,6 +64,9 @@ cp -p kernel-genkernel-x86_64-${KERNELVERSION}-gentoo-mfc /boot/
 echo "Setting new kernel as default ..."
 eselect kernel set $(eselect kernel list | grep ${KERNELVERSION} | awk '{print $1}' | sed "s/\[//g" | sed "s/\]//g")
 
+echo "Installing vmlinux of ${KERNELVERSION}-gentoo ..."
+cp -p vmlinux /usr/src/linux/
+
 echo "Updating grub configuration..."
 boot-update
 

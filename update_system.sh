@@ -58,7 +58,6 @@ tput sgr0
 
 eselect news read --quiet all
 emerge -q --sync || exit 1
-emerge -q --regen || exit 1
 eix-update -q || exit 1
 
 if [ -f "/server/admin/script/maint/update_mfc_portage_overlay.sh" ]; then
@@ -69,7 +68,7 @@ tput setf 2
 echo "Updating Portage to latest version..."
 tput sgr0
 
-emerge -u -q --oneshot portage || exit 1
+emerge -u -q --oneshot --autounmask-keep-masks portage || exit 1
 
 if [ ${DONTASK} -eq 0 ]; then
     ASK="--ask"
@@ -94,11 +93,6 @@ tput setf 2
 echo "Emerging preserved rebuild set..."
 tput sgr0
 emerge -q --usepkg-exclude="*" ${ASK} @preserved-rebuild || exit 1
-
-tput setf 2
-echo "Emerging module rebuild set..."
-tput sgr0
-emerge -q --usepkg-exclude="*" ${ASK} @module-rebuild || exit 1
 
 tput setf 2
 echo "Checking reverse dependencies..."
